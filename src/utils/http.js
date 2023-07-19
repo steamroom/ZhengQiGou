@@ -2,13 +2,13 @@
 import axios from "axios";
 
 //创建axios实例
-const httpTest = axios.create({
+const http = axios.create({
   baseURL: "http://pcapi-xiaotuxian-front-devtest.itheima.net",
   timeout: 5000,
 });
 
 // 添加请求拦截器
-axios.interceptors.request.use(
+http.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么
     return config;
@@ -20,11 +20,11 @@ axios.interceptors.request.use(
 );
 
 // 添加响应拦截器
-axios.interceptors.response.use(
+http.interceptors.response.use(
   function (response) {
     // 2xx 范围内的状态码都会触发该函数。
     // 对响应数据做点什么
-    return response;
+    return response.data;
   },
   function (error) {
     // 超出 2xx 范围的状态码都会触发该函数。
@@ -32,4 +32,4 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-export default httpTest
+export default http

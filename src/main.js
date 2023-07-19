@@ -8,10 +8,10 @@ import router from './router'
 
 
 //测试接口函数
-import { getCategory } from "@/apis/testApi";
-getCategory().then(res=>{
-    console.log(res);
-})
+// import { getCategoryAPI } from "@/apis/layout";
+// getCategoryAPI().then(res=>{
+//     console.log(res);
+// })
 const app = createApp(App)
 
 app.use(createPinia())
