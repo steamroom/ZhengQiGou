@@ -13,7 +13,17 @@
 import LayoutNav from './components/LayoutNav.vue'
 import LayoutHeader from './components/LayoutHeader.vue'
 import LayoutFooter from './components/LayoutFooter.vue'
-import LayoutFixed from './components/LayoutFixed.vue';
+import LayoutFixed from './components/LayoutFixed.vue'
+
+//触发获取列表的action
+import { useCategoryStore } from '@/stores/catogory'
+import { onMounted } from 'vue'
+
+const categoryStore = useCategoryStore()
+onMounted(() => {
+    //父组件使用pinia方法，保存数据
+    categoryStore.getCategory()
+})
 </script>
 
 <style></style>
