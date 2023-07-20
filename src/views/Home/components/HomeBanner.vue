@@ -1,3 +1,4 @@
+<!-- 轮播图banner区，直接调了element的模板 -->
 <template>
     <div class="home-banner">
         <el-carousel height="500px">
@@ -15,7 +16,6 @@ import { onMounted, ref } from 'vue'
 const bannerList = ref([])
 const getBanner = async () => {
     const res = await getBannerAPI()
-    console.log(res.result)
     bannerList.value = res.result
 }
 

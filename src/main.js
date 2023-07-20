@@ -6,9 +6,13 @@ import { createPinia } from "pinia";
 import App from "./App.vue";
 import router from "./router";
 
+import { lazyPlugin } from "@/directives";
+
 const app = createApp(App);
 
 app.use(createPinia());
 app.use(router);
+// 注册全局指令
+app.use(lazyPlugin);
 
 app.mount("#app");
