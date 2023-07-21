@@ -19,7 +19,8 @@ const router = createRouter({
           component: Home,
         },
         {
-          path: "category",
+          //路由占位符“：”
+          path: "category/:id",
           component: Category,
         },
       ],
