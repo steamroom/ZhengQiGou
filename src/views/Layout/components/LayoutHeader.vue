@@ -22,7 +22,7 @@
   </header>
 </template>
 <script setup>
-import { useCategoryStore } from "@/stores/catogory";
+import { useCategoryStore } from "@/stores/HomeCategory";
 //使用pinia中的数据
 const categoryStore = useCategoryStore();
 </script>
@@ -130,3 +130,4 @@ const categoryStore = useCategoryStore();
   }
 }
 </style>
+@/stores/HomeCategory

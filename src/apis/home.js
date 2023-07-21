@@ -4,11 +4,11 @@ import httpInstance from "@/utils/http";
  * @description: 获取Banner图片数据
  * @return {*}
  */
-export function getBannerAPI() {
+export const getBannerAPI = () => {
   return httpInstance({
     url: "/home/banner",
   });
-}
+};
 /**
  * @description:获取新鲜好物列表
  * @return {*}
