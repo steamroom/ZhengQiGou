@@ -46,42 +46,12 @@
 </template>
 
 <script setup>
-import { getCategoryAPI } from "@/apis/category";
-import { onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
-import { getBannerAPI } from "@/apis/home";
 import GoodsItem from "../Home/components/GoodsItem.vue";
-import { onBeforeRouteUpdate } from "vue-router";
+import { useBanner } from "./composables/useBanner";
+import { useCategory } from "./composables/useCategory";
 
-const categoryData = ref({});
-const route = useRoute();
-
-//
-const getCategory = async (id = route.params.id) => {
-  // 获取当前路由参数
-  const res = await getCategoryAPI(id);
-  categoryData.value = res.result;
-};
-
-onMounted(() => {
-  getCategory();
-});
-
-//路由参数改变时，将分类数据接口重新发送
-onBeforeRouteUpdate((to) => {
-  getCategory(to.params.id);
-});
-
-//获取banner
-const bannerList = ref([]);
-const getBanner = async () => {
-  const res = await getBannerAPI({ distributionSite: "2" });
-  bannerList.value = res.result;
-};
-
-onMounted(() => {
-  getBanner();
-});
+const { bannerList } = useBanner();
+const { categoryData } = useCategory();
 </script>
 
 <style scoped lang="scss">
