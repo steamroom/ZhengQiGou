@@ -4,9 +4,13 @@ import httpInstance from "@/utils/http";
  * @description: 获取Banner图片数据
  * @return {*}
  */
-export const getBannerAPI = () => {
+export const getBannerAPI = (params={}) => {
+  const { distributionSite = '1' } = params;
   return httpInstance({
     url: "/home/banner",
+    params: {
+      distributionSite,
+    },
   });
 };
 /**
