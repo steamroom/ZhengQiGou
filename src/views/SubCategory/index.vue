@@ -1,19 +1,11 @@
-<!--
- * @Author: steamroom 1364863807@qq.com
- * @Date: 2023-07-25 14:25:40
- * @LastEditors: steamroom 1364863807@qq.com
- * @LastEditTime: 2023-07-25 14:26:41
- * @FilePath: \vue-rabbit\src\views\SubCategory\index.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <template>
   <div class="container">
     <!-- 面包屑 -->
     <div class="bread-container">
       <el-breadcrumb separator=">">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/' }">居家 </el-breadcrumb-item>
-        <el-breadcrumb-item>居家生活用品</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: `/category/${categoryData.parentId}` }">{{categoryData.parentName}} </el-breadcrumb-item>
+        <el-breadcrumb-item>{{categoryData.name}}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="sub-container">
@@ -29,7 +21,23 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { getCategoryFilterAPI } from "@/apis/category";
+import { onMounted,ref } from "vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+const categoryData = ref({});
+const getCategoryData = async () => {
+  // 获取当前路由参数
+  const res = await getCategoryFilterAPI(route.params.id);
+  categoryData.value = res.result;
+};
+
+onMounted(() => {
+  getCategoryData();
+});
+</script>
 
 <style lang="scss" scoped>
 .bread-container {
