@@ -1,27 +1,42 @@
 <template>
   <div class="goods-hot">
-    <h3>周日榜单</h3>
+    <h3>{{ title }}</h3>
     <!-- 商品区块 -->
-    <RouterLink to="/" class="goods-item" v-for="item in hotList" :key="item.id">
+    <RouterLink
+      to="/"
+      class="goods-item"
+      v-for="item in hotList"
+      :key="item.id"
+    >
       <img :src="item.picture" alt="" />
-      <p class="name ellipsis">{{item.name}}</p>
-      <p class="desc ellipsis">{{item.desc}}</p>
-      <p class="price">&yen;{{item.price}}</p>
+      <p class="name ellipsis">{{ item.name }}</p>
+      <p class="desc ellipsis">{{ item.desc }}</p>
+      <p class="price">&yen;{{ item.price }}</p>
     </RouterLink>
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import { GetHotGoodsAPI } from "@/apis/detail";
 import { useRoute } from "vue-router";
+
+//设计props参数，适配不同的title和数据
+const props = defineProps({
+  hotType: Number,
+});
+const TYPEMAP = {
+  1: "24小时热榜",
+  2: "周热榜",
+};
+const title = computed(() => TYPEMAP[props.hotType]);
 
 const hotList = ref([]);
 const route = useRoute();
 const GetHotGoods = async () => {
   const res = await GetHotGoodsAPI({
     id: route.params.id,
-    type: 1,
+    type: props.hotType,
   });
   hotList.value = res.result;
 };

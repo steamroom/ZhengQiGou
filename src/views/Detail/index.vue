@@ -110,9 +110,9 @@
             </div>
             <div class="goods-aside">
               <!-- 24热榜 -->
-              <DetailHot></DetailHot>
+              <DetailHot :hot-type="1"></DetailHot>
               <!-- 专题推荐 -->
-              <DetailHot></DetailHot>
+              <DetailHot :hot-type="2"></DetailHot>
             </div>
           </div>
         </div>
