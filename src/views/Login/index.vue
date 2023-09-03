@@ -19,19 +19,28 @@
         </nav>
         <div class="account-box">
           <div class="form">
-            <el-form label-position="right" label-width="60px" status-icon>
-              <el-form-item label="账户">
-                <el-input />
+            <el-form
+              ref="formRef"
+              :model="userForm"
+              :rules="rules"
+              label-position="right"
+              label-width="60px"
+              status-icon
+            >
+              <el-form-item prop="account" label="账户">
+                <el-input v-model="userForm.account" />
               </el-form-item>
-              <el-form-item label="密码">
-                <el-input />
+              <el-form-item prop="password" label="密码">
+                <el-input v-model="userForm.password" />
               </el-form-item>
-              <el-form-item label-width="22px">
-                <el-checkbox size="large">
+              <el-form-item prop="isAgree" label-width="22px">
+                <el-checkbox v-model="userForm.isAgree" size="large">
                   我已同意隐私条款和服务条款
                 </el-checkbox>
               </el-form-item>
-              <el-button size="large" class="subBtn">点击登录</el-button>
+              <el-button size="large" class="subBtn" @click="doLogin"
+                >点击登录</el-button
+              >
             </el-form>
           </div>
         </div>
@@ -55,7 +64,57 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+
+//表单校验：账户名+密码
+const userForm = ref({
+  account: "",
+  password: "",
+  isAgree: true,
+});
+
+const rules = {
+  account: [
+    {
+      required: true,
+      message: "账户名不能为空",
+      trigger: "blur",
+    },
+  ],
+  password: [
+    {
+      required: true,
+      message: "密码不能为空",
+      trigger: "blur",
+    },
+    { min: 6, max: 14, message: "密码长度必须为6-14位", trigger: "blur" },
+  ],
+  isAgree: [
+    {
+      validator: (rule, value, callback) => {
+        if (value) {
+          callback();
+        } else callback(new Error("请勾选协议"));
+      },
+    },
+  ],
+};
+
+//获取form实例做统一校验
+const formRef = ref(null);
+const doLogin = () => {
+  formRef.value.validate((valid) => {
+    if (valid) {
+      console.log("校验通过");
+    }
+    else {
+      console.log("校验失败");
+    }
+  });
+};
+
+</script>
 
 <style scoped lang="scss">
 .login-header {
