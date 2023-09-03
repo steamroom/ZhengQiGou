@@ -66,7 +66,10 @@
 
 <script setup>
 import { ref } from "vue";
-
+import { loginAPI } from "@/apis/user.js";
+import { ElMessage } from "element-plus";
+import "element-plus/theme-chalk/el-message.css";
+import { useRouter } from "vue-router";
 //表单校验：账户名+密码
 const userForm = ref({
   account: "",
@@ -103,17 +106,21 @@ const rules = {
 
 //获取form实例做统一校验
 const formRef = ref(null);
+const router = useRouter();
 const doLogin = () => {
-  formRef.value.validate((valid) => {
+  const { account, password } = userForm.value;
+  formRef.value.validate(async (valid) => {
+    //所有校验通过后才能通过。
     if (valid) {
-      console.log("校验通过");
-    }
-    else {
-      console.log("校验失败");
+      const res = await loginAPI({ account, password });
+      console.log(res);
+      // 提示用户
+      ElMessage({ type: "success", message: "登录成功" });
+      // 跳转首页
+      router.replace({ path: "/" });
     }
   });
 };
-
 </script>
 
 <style scoped lang="scss">
