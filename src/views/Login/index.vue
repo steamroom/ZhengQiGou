@@ -66,14 +66,16 @@
 
 <script setup>
 import { ref } from "vue";
-import { loginAPI } from "@/apis/user.js";
 import { ElMessage } from "element-plus";
 import "element-plus/theme-chalk/el-message.css";
 import { useRouter } from "vue-router";
+import { useUserStore } from "@/stores/User";
+
+const userStore = useUserStore();
 //表单校验：账户名+密码
 const userForm = ref({
-  account: "",
-  password: "",
+  account: "xiaotuxian001",
+  password: "123456",
   isAgree: true,
 });
 
@@ -112,8 +114,7 @@ const doLogin = () => {
   formRef.value.validate(async (valid) => {
     //所有校验通过后才能通过。
     if (valid) {
-      const res = await loginAPI({ account, password });
-      console.log(res);
+      await userStore.getUserInfo({ account, password })
       // 提示用户
       ElMessage({ type: "success", message: "登录成功" });
       // 跳转首页
