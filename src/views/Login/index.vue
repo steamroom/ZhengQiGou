@@ -71,7 +71,6 @@ import "element-plus/theme-chalk/el-message.css";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/User";
 
-const userStore = useUserStore();
 //表单校验：账户名+密码
 const userForm = ref({
   account: "xiaotuxian001",
@@ -109,12 +108,13 @@ const rules = {
 //获取form实例做统一校验
 const formRef = ref(null);
 const router = useRouter();
+const userStore = useUserStore();
 const doLogin = () => {
   const { account, password } = userForm.value;
   formRef.value.validate(async (valid) => {
     //所有校验通过后才能通过。
     if (valid) {
-      await userStore.getUserInfo({ account, password })
+      await userStore.getUserInfo({ account, password });
       // 提示用户
       ElMessage({ type: "success", message: "登录成功" });
       // 跳转首页
