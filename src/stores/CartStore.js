@@ -32,11 +32,14 @@ export const useCartStore = defineStore(
     };
 
     //单选功能
-    const changeCheck = (skuId,selected) => {
+    const changeCheck = (skuId, selected) => {
       const item = cartList.value.findIndex((item) => item.skuId === skuId);
       cartList.value[item].selected = selected;
-    }
-
+    };
+    //全选功能
+    const changeAllCheck = (selected) => {
+      cartList.value.forEach((item) => (item.selected = selected));
+    };
     //计算属性：所有商品及其总价
     const totalNum = computed(() =>
       cartList.value.reduce((pre, item) => pre + item.count, 0)
@@ -44,6 +47,9 @@ export const useCartStore = defineStore(
     const totalPrice = computed(() =>
       cartList.value.reduce((pre, item) => pre + item.count * item.price, 0)
     );
+    //全选判断
+    const isAll = computed(() => cartList.value.every((item) => item.selected));
+
     return {
       cartList,
       addCart,
@@ -51,6 +57,8 @@ export const useCartStore = defineStore(
       totalNum,
       totalPrice,
       changeCheck,
+      isAll,
+      changeAllCheck,
     };
   },
   {

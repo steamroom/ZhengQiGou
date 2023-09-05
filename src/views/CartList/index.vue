@@ -6,7 +6,8 @@
           <thead>
             <tr>
               <th width="120">
-                <el-checkbox />
+                <!-- 全选框 -->
+                <el-checkbox v-model="cartStore.isAll" @change="cartStore.changeAllCheck"></el-checkbox>
               </th>
               <th width="400">商品信息</th>
               <th width="220">单价</th>
