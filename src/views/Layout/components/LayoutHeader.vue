@@ -18,10 +18,12 @@
         <input type="text" placeholder="搜一搜" />
       </div>
       <!-- 头部购物车 -->
+      <Cart></Cart>
     </div>
   </header>
 </template>
 <script setup>
+import Cart from "./Cart.vue";
 import { useCategoryStore } from "@/stores/HomeCategory";
 //使用pinia中的数据
 const categoryStore = useCategoryStore();
