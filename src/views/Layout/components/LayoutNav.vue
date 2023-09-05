@@ -5,11 +5,14 @@
         <!-- 多模板渲染，区分是否登录 -->
         <template v-if="userStore.userInfo.token">
           <li>
-            <a href="javascript:;"><i class="iconfont icon-user"></i>{{userStore.userInfo.account
-}}</a>
+            <a href="javascript:;"
+              ><i class="iconfont icon-user"></i
+              >{{ userStore.userInfo.account }}</a
+            >
           </li>
           <li>
             <el-popconfirm
+            @confirm="confirmLogout"
               title="确认退出吗?"
               confirm-button-text="确认"
               cancel-button-text="取消"
@@ -35,8 +38,16 @@
 </template>
 
 <script setup>
+import router from "@/router";
 import { useUserStore } from "@/stores/User";
 const userStore = useUserStore();
+
+const confirmLogout = () => {
+  // 退出登录
+  //清楚用户信息
+  userStore.clearUserInfo();
+  router.push("/login");
+};  
 </script>
 
 <style scoped lang="scss">

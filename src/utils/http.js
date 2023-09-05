@@ -15,7 +15,7 @@ http.interceptors.request.use(
   (config) => {
     // pinia获取token数据
     const userStore = useUserStore();
-    //拼接token数据
+    //按照后端要求拼接token数据
     const token = userStore.userInfo.token;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
