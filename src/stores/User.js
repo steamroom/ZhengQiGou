@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { loginAPI } from "@/apis/user";
+import { useRouter } from "vue-router";
 
 export const useUserStore = defineStore(
   "user",
@@ -14,16 +15,17 @@ export const useUserStore = defineStore(
       //把接口数据赋值给state
       userInfo.value = res.result;
     };
-
-    const clearUserInfo = () => {
+    const router = useRouter();
+    const logout = () => {
       userInfo.value = {};
+      router.push("/login");
     };
 
     //以对象的格式把state和action return
     return {
       userInfo,
       getUserInfo,
-      clearUserInfo,
+      logout,
     };
   },
   { persist: true }

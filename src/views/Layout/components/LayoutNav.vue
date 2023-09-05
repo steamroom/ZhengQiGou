@@ -38,15 +38,13 @@
 </template>
 
 <script setup>
-import router from "@/router";
 import { useUserStore } from "@/stores/User";
 const userStore = useUserStore();
 
 const confirmLogout = () => {
   // 退出登录
   //清楚用户信息
-  userStore.clearUserInfo();
-  router.push("/login");
+  userStore.logout();
 };  
 </script>
 

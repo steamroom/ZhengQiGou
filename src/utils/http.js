@@ -3,6 +3,7 @@ import axios from "axios";
 import { ElMessage } from "element-plus";
 import "element-plus/theme-chalk/el-message.css";
 import { useUserStore } from "@/stores/User";
+import router from "@/router";
 
 //创建axios实例
 const http = axios.create({
@@ -39,8 +40,16 @@ http.interceptors.response.use(
     // 超出 2xx 范围的状态码都会触发该函数。
     // 对响应错误做点什么
     //统一数据
-    ElMessage.error(error.response.data.message);
-    return Promise.reject(error);
+    ElMessage.error(error.response.data.message);  
+      //401token失效处理
+    if (error.response.status === 401) { 
+      ElMessage.error("登录失效，请重新登录");
+      //清除token
+      useUserStore().logout();
+      //跳转登录页面
+      router.push("/login");
   }
-);
+    return Promise.reject(error);
+
+});
 export default http;
