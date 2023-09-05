@@ -2,6 +2,7 @@
 import axios from "axios";
 import { ElMessage } from "element-plus";
 import "element-plus/theme-chalk/el-message.css";
+import { useUserStore } from "@/stores/User";
 
 //创建axios实例
 const http = axios.create({
@@ -9,10 +10,16 @@ const http = axios.create({
   timeout: 5000,
 });
 
-// 添加请求拦截器
+// 添加请求拦截器（携带token）
 http.interceptors.request.use(
   (config) => {
-    // 在发送请求之前做些什么
+    // pinia获取token数据
+    const userStore = useUserStore();
+    //拼接token数据
+    const token = userStore.userInfo.token;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {

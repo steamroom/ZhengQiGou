@@ -3,9 +3,10 @@
     <div class="container">
       <ul>
         <!-- 多模板渲染，区分是否登录 -->
-        <template v-if="false">
+        <template v-if="userStore.userInfo.token">
           <li>
-            <a href="javascript:;"><i class="iconfont icon-user"></i>周杰伦</a>
+            <a href="javascript:;"><i class="iconfont icon-user"></i>{{userStore.userInfo.account
+}}</a>
           </li>
           <li>
             <el-popconfirm
@@ -33,8 +34,9 @@
   </nav>
 </template>
 
-<script>
-export default {};
+<script setup>
+import { useUserStore } from "@/stores/User";
+const userStore = useUserStore();
 </script>
 
 <style scoped lang="scss">
