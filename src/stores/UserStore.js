@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { loginAPI } from "@/apis/user";
 import { useRouter } from "vue-router";
 import { useCartStore } from "./CartStore";
+import { mergeCartAPI } from "@/apis/cart";
 
 export const useUserStore = defineStore(
   "user",
@@ -15,9 +16,21 @@ export const useUserStore = defineStore(
       const res = await loginAPI({ account, password });
       //把接口数据赋值给state
       userInfo.value = res.result;
+      //合并购物车
+      mergeCartAPI(
+        cartStore.cartList.map((item) => {
+          return {
+            skuId: item.skuId,
+            selectd: item.selectd,
+            count: item.count,
+          };
+        })
+      );
+      cartStore.updateCartList();
     };
-    const router = useRouter();
+
     //定义退出登录的action函数
+    const router = useRouter();
     const logout = () => {
       userInfo.value = {};
       router.push("/login");
