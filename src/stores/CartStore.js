@@ -2,24 +2,34 @@
 
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
+import { useUserStore } from "./User";
+import { insertCartAPI, getNewCartListAPI } from "@/apis/cart";
 
 export const useCartStore = defineStore(
   "cart",
   () => {
+    const userStore = useUserStore();
+    const isLogin = computed(() => userStore.userInfo.token);
     // 1. 定义state - cartList
     const cartList = ref([]);
     // 2. 定义action - addCart
-    const addCart = (goods) => {
+    const addCart = async (goods) => {
       // 添加购物车操作
       // 思路：通过匹配传递过来的商品对象中的skuId能不能在cartList中找到，找到了就是添加过。已添加过 - count + 1，没有添加过 - 直接push。
-      // console.log("添加", goods);
-      const item = cartList.value.find((item) => goods.skuId === item.skuId);
-      if (item) {
-        // 找到了
-        item.count++;
+      const { skuId, count } = goods;
+      if (!isLogin.value) {
+        // 未登录：本地购物车
+        const item = cartList.value.find((item) => goods.skuId === item.skuId);
+        if (item) {
+          item.count++;
+        } else {
+          cartList.value.push(goods);
+        }
       } else {
-        // 没找到
-        cartList.value.push(goods);
+        //已登录：接口购物车
+        await insertCartAPI({skuId, count});
+        const res = await getNewCartListAPI();
+        cartList.value = res.result;
       }
     };
     //删除购物车
@@ -75,7 +85,6 @@ export const useCartStore = defineStore(
       totalSelected,
       totalSelectedPrice,
       isAll,
-      
     };
   },
   {
