@@ -2,7 +2,7 @@
 
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import { useUserStore } from "./User";
+import { useUserStore } from "./UserStore";
 import { insertCartAPI, getNewCartListAPI, deleteCartAPI } from "@/apis/cart";
 
 export const useCartStore = defineStore(
@@ -50,6 +50,11 @@ export const useCartStore = defineStore(
       }
     };
 
+    //清空购物车
+    const clearCart = async () => {
+      cartList.value = [];
+    };
+
     //单选功能
     const changeCheck = (skuId, selected) => {
       const item = cartList.value.findIndex((item) => item.skuId === skuId);
@@ -87,6 +92,7 @@ export const useCartStore = defineStore(
       cartList,
       addCart,
       deleteCart,
+      clearCart,
       totalNum,
       totalPrice,
       changeCheck,

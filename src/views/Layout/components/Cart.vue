@@ -19,6 +19,7 @@
               <p class="count">x{{ i.count }}</p>
             </div>
           </RouterLink>
+          <!-- 删除商品 -->
           <i
             class="iconfont icon-close"
             @click="cartStore.deleteCart(i.skuId)"

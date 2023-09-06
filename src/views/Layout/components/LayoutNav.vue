@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-import { useUserStore } from "@/stores/User";
+import { useUserStore } from "@/stores/UserStore";
 const userStore = useUserStore();
 
 const confirmLogout = () => {

@@ -2,11 +2,12 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { loginAPI } from "@/apis/user";
 import { useRouter } from "vue-router";
+import { useCartStore } from "./CartStore";
 
 export const useUserStore = defineStore(
   "user",
   () => {
-    //定义管理用户数据的state
+    const cartStore = useCartStore();
     const userInfo = ref({});
     //定义获取接口数据的action函数
     const getUserInfo = async ({ account, password }) => {
@@ -16,9 +17,12 @@ export const useUserStore = defineStore(
       userInfo.value = res.result;
     };
     const router = useRouter();
+    //定义退出登录的action函数
     const logout = () => {
       userInfo.value = {};
       router.push("/login");
+      // 退出登录时清空购物车
+      cartStore.clearCart();
     };
 
     //以对象的格式把state和action return

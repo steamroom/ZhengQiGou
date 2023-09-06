@@ -26,7 +26,7 @@
 <script setup>
 //使用vueuse获取实时滚动距离
 import { useScroll } from "@vueuse/core";
-import { useCategoryStore } from "@/stores/HomeCategory";
+import { useCategoryStore } from "@/stores/HomeCategoryStore";
 
 const { y } = useScroll(window);
 //使用pinia中的数据

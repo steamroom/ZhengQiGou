@@ -24,7 +24,7 @@
 </template>
 <script setup>
 import Cart from "./Cart.vue";
-import { useCategoryStore } from "@/stores/HomeCategory";
+import { useCategoryStore } from "@/stores/HomeCategoryStore";
 //使用pinia中的数据
 const categoryStore = useCategoryStore();
 </script>
@@ -132,4 +132,3 @@ const categoryStore = useCategoryStore();
   }
 }
 </style>
-@/stores/HomeCategory

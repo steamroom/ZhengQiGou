@@ -16,7 +16,7 @@ import LayoutFooter from './components/LayoutFooter.vue'
 import LayoutFixed from './components/LayoutFixed.vue'
 
 //触发获取列表的action
-import { useCategoryStore } from '@/stores/HomeCategory'
+import { useCategoryStore } from '@/stores/HomeCategoryStore'
 import { onMounted } from 'vue'
 
 const categoryStore = useCategoryStore()
