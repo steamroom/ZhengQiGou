@@ -19,3 +19,14 @@ export const getNewCartListAPI = () => {
     url: "/member/cart",
   });
 };
+
+//删除购物车操作
+export const deleteCartAPI = (ids) => {
+  return httpInstance({
+    url: "/member/cart",
+    method: "DELETE",
+    data: {
+      ids,
+    },
+  });
+};

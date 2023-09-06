@@ -3,16 +3,21 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 import { useUserStore } from "./User";
-import { insertCartAPI, getNewCartListAPI } from "@/apis/cart";
+import { insertCartAPI, getNewCartListAPI, deleteCartAPI } from "@/apis/cart";
 
 export const useCartStore = defineStore(
   "cart",
   () => {
     const userStore = useUserStore();
     const isLogin = computed(() => userStore.userInfo.token);
-    // 1. 定义state - cartList
     const cartList = ref([]);
-    // 2. 定义action - addCart
+
+    //更新购物车列表
+    const updateCartList = async () => {
+      const res = await getNewCartListAPI();
+      cartList.value = res.result;
+    };
+
     const addCart = async (goods) => {
       // 添加购物车操作
       // 思路：通过匹配传递过来的商品对象中的skuId能不能在cartList中找到，找到了就是添加过。已添加过 - count + 1，没有添加过 - 直接push。
@@ -27,18 +32,22 @@ export const useCartStore = defineStore(
         }
       } else {
         //已登录：接口购物车
-        await insertCartAPI({skuId, count});
-        const res = await getNewCartListAPI();
-        cartList.value = res.result;
+        await insertCartAPI({ skuId, count });
+        updateCartList();
       }
     };
-    //删除购物车
-    const deleteCart = (skuId) => {
-      // 删除购物车操作
-      // 思路：通过匹配传递过来的商品对象中的skuId能不能在cartList中找到，找到了就是删除。
-      // console.log("删除", skuId);
-      const index = cartList.value.findIndex((item) => item.skuId === skuId);
-      cartList.value.splice(index, 1);
+
+    const deleteCart = async (skuId) => {
+      //删除购物车操作
+      //未登录
+      if (!isLogin.value) {
+        const index = cartList.value.findIndex((item) => item.skuId === skuId);
+        cartList.value.splice(index, 1);
+      } else {
+        //已登录
+        await deleteCartAPI([skuId]);
+        updateCartList();
+      }
     };
 
     //单选功能
