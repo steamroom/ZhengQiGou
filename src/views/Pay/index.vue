@@ -19,7 +19,7 @@
         <div class="item">
           <p>支付平台</p>
           <a class="btn wx" href="javascript:;"></a>
-          <a class="btn alipay" :href="payUrl"></a>
+          <a class="btn alipay" ></a>
         </div>
         <div class="item">
           <p>支付方式</p>
@@ -35,9 +35,22 @@
 </template>
 
 <script setup>
-const payInfo = {};
-</script>
+import { getOrderAPI } from "@/apis/pay";
+import { useRoute } from "vue-router";
+import { ref, onMounted } from "vue";
 
+const route = useRoute();
+const payInfo = ref({});
+const getPayInfo = async () => {
+  const res = await getOrderAPI(route.query.id);
+  payInfo.value = res.result;
+  console.log(payInfo.value);
+};
+
+onMounted(() => {
+  getPayInfo();
+});
+</script>
 
 <style scoped lang="scss">
 .xtx-pay-page {
