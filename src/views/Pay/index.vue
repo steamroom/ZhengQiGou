@@ -3,7 +3,7 @@
     <div class="container">
       <!-- 付款信息 -->
       <div class="pay-info">
-        <span class="icon iconfont icon-queren2"></span>
+        <span class="icon iconfont icon-success-filling"></span>
         <div class="tip">
           <p>订单提交成功！请尽快完成支付。</p>
           <p>支付还剩 <span>24分30秒</span>, 超时后将取消订单</p>
@@ -19,7 +19,7 @@
         <div class="item">
           <p>支付平台</p>
           <a class="btn wx" href="javascript:;"></a>
-          <a class="btn alipay" ></a>
+          <a class="btn alipay" :href="payUrl"></a>
         </div>
         <div class="item">
           <p>支付方式</p>
@@ -44,12 +44,18 @@ const payInfo = ref({});
 const getPayInfo = async () => {
   const res = await getOrderAPI(route.query.id);
   payInfo.value = res.result;
-  console.log(payInfo.value);
 };
 
 onMounted(() => {
   getPayInfo();
 });
+
+//跳转支付
+// 支付地址
+const baseURL = "http://pcapi-xiaotuxian-front-devtest.itheima.net/";
+const backURL = "http://localhost:5173/paycallback";
+const redirectUrl = encodeURIComponent(backURL);
+const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redirectUrl}`;
 </script>
 
 <style scoped lang="scss">
