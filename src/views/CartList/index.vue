@@ -91,7 +91,6 @@ const cartStore = useCartStore();
 
 //切换单选框
 const singleCheck = (i,selected) => {
-  console.log(i);
   cartStore.changeCheck(i.skuId, selected)
 }
 </script>
